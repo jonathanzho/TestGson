@@ -8,6 +8,7 @@ import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,32 +36,39 @@ public class MainActivity extends AppCompatActivity {
   private void testGson() {
     Log.d(TAG, "testGson");
 
-    Student student1 = new Student("Albert", 17);
-    Student student2 = new Student("Beatrice", 18);
+    Student student1 = new Student("Albert", 17, true);
+    Student student2 = new Student("Beatrice", 18, false);
 
-    ParentsToStudents parentsToStudents = new ParentsToStudents(student1, student2);
+    StudentList parentsToStudents = new StudentList(student1, student2);
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     String json = gson.toJson(parentsToStudents);
     Log.d(TAG, "json=[" + json + "]");
   }
 
   class Student {
+    @SerializedName("name")
     String mName;
+    @SerializedName("age")
     int mAge;
+    @SerializedName("1parent")
+    boolean mIs1Parent;
 
-    Student(String name, int age) {
+    Student(String name, int age, boolean is1Parent) {
       mName = name;
       mAge = age;
+      mIs1Parent = is1Parent;
     }
   }
 
-  class ParentsToStudents {
-    Student parent1;
-    Student parent2;
+  class StudentList {
+    @SerializedName("student1")
+    Student mStudent1;
+    @SerializedName("student2")
+    Student mStudent2;
 
-    ParentsToStudents(Student student1, Student student2) {
-      parent1 = student1;
-      parent2 = student2;
+    StudentList(Student student1, Student student2) {
+      mStudent1 = student1;
+      mStudent2 = student2;
     }
   }
 }
